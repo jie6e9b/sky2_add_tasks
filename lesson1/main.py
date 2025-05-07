@@ -1,3 +1,6 @@
+from unicodedata import category
+
+
 class Product:
     name: str
     description: str
