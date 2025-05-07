@@ -1,5 +1,5 @@
 import pytest
-from ..main_14_1 import Product, Category
+from lesson1.main import Product, Category
 
 @pytest.fixture
 def sample_product():

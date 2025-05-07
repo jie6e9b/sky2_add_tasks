@@ -1,13 +1,11 @@
 [run]
 source = lesson1
-omit =
-    */tests/*
+omit = lesson1/tests/*
+relative_files = True
+dynamic_context = test_function
 
 [report]
 exclude_lines =
     pragma: no cover
     def __repr__
     raise NotImplementedError
-    if __name__ == .__main__.:
-    pass
-    raise ImportError
