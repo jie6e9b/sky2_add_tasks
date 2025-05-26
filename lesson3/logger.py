@@ -6,11 +6,38 @@
 принимающую сообщение и записывающую его в файл.
 """
 
+import datetime
+
 
 class Logger:
-    pass
+    def __init__(self, filename):
+        """
+        Конструктор, принимающий имя файла для записи логов
 
+        Args:
+            filename (str): имя файла для записи логов
+        """
+        self.filename = filename
 
-# код для проверки 
-logger = Logger("log.txt")
-logger("This is a test message.")
+    def __call__(self, message):
+        """
+        Магический метод, позволяющий использовать объект как функцию
+        Записывает сообщение в файл с временной меткой
+
+        Args:
+            message (str): сообщение для записи в лог
+        """
+        # Получаем текущее время
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        # Формируем строку лога с временной меткой
+        log_entry = f"[{timestamp}] {message}\n"
+
+        # Записываем в файл (режим 'a' для добавления)
+        with open(self.filename, 'a', encoding='utf-8') as file:
+            file.write(log_entry)
+
+# код для проверки
+if __name__ == "__main__":
+    logger = Logger("log.txt")
+    logger("This is a test message.")
