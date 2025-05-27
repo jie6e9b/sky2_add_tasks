@@ -24,7 +24,7 @@ class Product:
         return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other):
-        return self.__price*self.quantity + other.__price*other.quantity
+        return self.price * self.quantity + other.price * other.quantity
 
 
 class Category:
@@ -34,9 +34,9 @@ class Category:
     def __init__(self, name, description, products):
         self.name = name
         self.description = description
-        self.__products = products
+        self.__products = products if products else []
         Category.category_count += 1
-        Category.product_count += len(products)
+        Category.product_count += len(self.__products)
 
     def add_product(self, product):
         if isinstance(product, Product):
@@ -50,7 +50,8 @@ class Category:
         return '\n'.join(str(product) for product in self.__products)
 
     def __str__(self):
-        return f"{self.name}, количество продуктов: {Category.product_count} шт."
+        product_sum = sum(product.quantity for product in self.__products)
+        return f"{self.name}, количество продуктов: {product_sum} шт."
 
 
 if __name__ == "__main__":

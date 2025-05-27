@@ -1,4 +1,8 @@
 import pytest
+import unittest
+from unittest.mock import patch
+from io import StringIO
+import sys
 from lesson1.main import Product, Category
 
 
@@ -6,10 +10,40 @@ from lesson1.main import Product, Category
 def sample_product():
     return Product("Samsung Galaxy", "Описание", 50000, 10)
 
+@pytest.fixture
+def sample_product2():
+    return Product("Iphone", "Описание 2", 100000, 20)
+
+@pytest.fixture
+def five_products():
+    """Фикстура с 5 различными продуктами"""
+    return [
+        Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5),
+        Product("iPhone 15 Pro", "512GB, Титановый, Pro камера", 210000.0, 8),
+        Product("Xiaomi Redmi Note 12", "128GB, Синий, 50MP камера", 25000.0, 15),
+        Product("Google Pixel 8", "256GB, Черный, AI камера", 85000.0, 12),
+        Product("OnePlus 11", "256GB, Зеленый, Hasselblad камера", 75000.0, 7)
+    ]
 
 @pytest.fixture
 def sample_category(sample_product):
     return Category("Смартфоны", "Описание категории", [sample_product])
+
+def test_str_method_prod(sample_product):
+    """Тест магического метода __str__ для продукта"""
+    expected = "Samsung Galaxy, 50000 руб. Остаток: 10 шт."
+    assert str(sample_product) == expected
+
+def test_str_method_cat(sample_category):
+    """Тест магического метода __str__ для категории"""
+    expected = "Смартфоны, количество продуктов: 10 шт."
+    assert str(sample_category) == expected
+
+def test_add_method_(sample_product, sample_product2):
+    expected = 2500000
+    assert (sample_product.price * sample_product.quantity +
+            sample_product2.price * sample_product2.quantity) == expected
+
 
 
 def test_product_creation(sample_product):
@@ -92,5 +126,6 @@ def test_product_str_representation(sample_product):
     # Проверка строкового представления продукта
     expected_str = "Samsung Galaxy, 50000 руб. Остаток: 10 шт."
     assert str(sample_product) == expected_str
+
 
 
