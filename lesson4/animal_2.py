@@ -29,4 +29,9 @@ animals = [Dog('Dog1'), Dog('Dog2'), Cat('Cat1'), Dog('Dog3')]
 
 for animal in animals:
     # Должно выводиться Bark или Meow в зависимости от того какой класс
-    pass
+    if isinstance(animal, Dog):
+        print(animal.bark())
+    elif isinstance(animal, Cat):
+        print(animal.meow())
+    else: TypeError()
+
