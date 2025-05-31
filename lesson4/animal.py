@@ -14,8 +14,32 @@
 """
 
 
-class Aminal:
-    pass
+class Animal:
+    name: str
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        print('rrrrrrr')
+
+class Dog(Animal):
+    name: str
+
+    def __init__(self, name):
+        super().__init__(name)
+
+    def speak(self):
+        print('gav gav')
+
+
+class Cat(Animal):
+    name: str
+
+    def __init__(self, name):
+        super().__init__(name)
+
+    def speak(self):
+        print('miau miau')
 
 
 # код для проверки 
