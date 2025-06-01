@@ -11,7 +11,9 @@ dependencies = [
     "pytest (>=8.3.5,<9.0.0)",
     "pytest-cov (>=6.1.1,<7.0.0)",
     "coverage (>=7.8.0,<8.0.0)",
-    "flake8 (>=7.2.0,<8.0.0)"
+    "flake8 (>=7.2.0,<8.0.0)",
+    "black (>=25.1.0,<26.0.0)",
+    "isort (>=6.0.1,<7.0.0)"
 ]
 
 
@@ -27,3 +29,11 @@ testpaths = ["lesson1/tests"]
 source = ["lesson1"]
 omit = ["*/tests/*"]
 
+[tool.flake8]
+max-line-length = 120
+
+[tool.black]
+line-length = 120
+
+[tool.isort]
+line_length = 120
