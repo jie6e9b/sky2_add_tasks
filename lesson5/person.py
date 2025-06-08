@@ -15,10 +15,38 @@
 - __init__(self, name, age, salary, bonus): конструктор, принимающий имя менеджера, его возраст, зарплату и бонус;
 - get_bonus(self): метод, который возвращает бонус менеджера.
 """
+from tkinter.font import names
 
 
 class Person:
-    pass
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def get_name(self):
+        print(self.name)
+
+    def get_age(self):
+        print(self.age)
+
+class Employee2(Person):
+    def __init__(self, name, age, salary):
+        super().__init__(name, age)
+        self.salary = salary
+
+    def get_salary(self):
+        print(self.salary)
+
+class Manager2(Employee2):
+    def __init__(self, name, age, salary, bonus):
+        super().__init__(name, age, salary)
+        self.bonus = bonus
+
+    def get_bonus(self):
+        print(self.bonus)
+
+
+
 
 
 # код для проверки 
