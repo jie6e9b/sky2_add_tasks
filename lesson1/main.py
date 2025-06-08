@@ -1,6 +1,7 @@
 from lesson1.base_product import BaseProduct
 from lesson1.print_mixin import PrintMixin
 
+
 class Product(PrintMixin, BaseProduct):
     def __init__(self, name, description, price, quantity, *args, **kwargs):
         self.name = name
@@ -64,6 +65,7 @@ class Smartphone(Product):
             return base_value * 0.9
         else:
             return base_value
+
 
 class LawnGrass(Product):
     def __init__(self, name, description, price, quantity, country, germination_period, color):
@@ -143,7 +145,6 @@ class Category:
     def __str__(self):
         product_sum = sum(product.quantity for product in self.__products)
         return f"{self.name}, количество продуктов: {product_sum} шт."
-
 
 
 if __name__ == '__main__':
