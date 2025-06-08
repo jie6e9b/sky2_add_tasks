@@ -333,17 +333,17 @@ def test_product_price_setter(sample_product):
 
 def test_product_price_negative_value(sample_product, capsys):
     # Проверка попытки установить отрицательную цену
-    sample_product.price = -100
-    captured = capsys.readouterr()
-    assert "Цена не должна быть нулевая или отрицательная" in captured.out
+    with pytest.raises(ValueError, match="Цена не должна быть нулевая или отрицательная"):
+        sample_product.price = -100
+
     assert sample_product.price == 50000  # Цена не должна измениться
 
 
 def test_product_price_zero(sample_product, capsys):
     # Проверка попытки установить нулевую цену
-    sample_product.price = 0
-    captured = capsys.readouterr()
-    assert "Цена не должна быть нулевая или отрицательная" in captured.out
+    with pytest.raises(ValueError, match="Цена не должна быть нулевая или отрицательная"):
+        sample_product.price = 0
+
     assert sample_product.price == 50000  # Цена не должна измениться
 
 
