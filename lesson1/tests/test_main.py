@@ -4,6 +4,8 @@ from unittest.mock import patch
 from io import StringIO
 import sys
 from lesson1.main import Product, Smartphone, LawnGrass, Category
+from lesson1.base_product import BaseProduct
+from lesson1.print_mixin import PrintMixin
 
 
 class TestSmartphoneInitialization:
@@ -57,8 +59,10 @@ class TestSmartphoneInitialization:
         assert isinstance(smartphone, Smartphone)
 
     def test_smartphone_inheritance(self):
-        """Тест наследования класса Smartphone от Product"""
+        """Тест наследования класса Smartphone от Product, BaseProduct, Print_Mixin"""
         assert issubclass(Smartphone, Product)
+        assert issubclass(Smartphone, BaseProduct)
+        assert issubclass(Smartphone, PrintMixin)
 
     def test_smartphone_str_method(self, smartphone):
         """Тест строкового представления смартфона"""
@@ -77,16 +81,19 @@ class TestSmartphoneInitialization:
     def test_smartphone_price_validation(self, smartphone, capsys):
         """Тест валидации цены смартфона"""
         # Попытка установить отрицательную цену
-        smartphone.price = -1000
-        captured = capsys.readouterr()
-        assert "Цена не должна быть нулевая или отрицательная" in captured.out
+        with pytest.raises(ValueError, match= "Цена не должна быть нулевая или отрицательная"):
+            smartphone.price = -1000
+
         # Цена должна остаться прежней
         assert smartphone.price == 210000.0
 
         # Попытка установить нулевую цену
-        smartphone.price = 0
-        captured = capsys.readouterr()
-        assert "Цена не должна быть нулевая или отрицательная" in captured.out
+        with pytest.raises(ValueError, match= "Цена не должна быть нулевая или отрицательная"):
+            smartphone.price = 0
+
+        # Цена по-прежнему не изменилась
+        assert smartphone.price == 210000.0
+
 
     def test_smartphone_with_different_parameters(self):
         """Тест создания смартфона с различными параметрами"""
@@ -173,9 +180,9 @@ class TestLawnGrassInitialization:
     def test_lawn_grass_price_validation(self, lawn_grass, capsys):
         """Тест валидации цены газонной травы"""
         # Попытка установить отрицательную цену
-        lawn_grass.price = -100
-        captured = capsys.readouterr()
-        assert "Цена не должна быть нулевая или отрицательная" in captured.out
+        with pytest.raises(ValueError, match="Цена не должна быть нулевая или отрицательная"):
+            lawn_grass.price = -100
+
         # Цена должна остаться прежней
         assert lawn_grass.price == 500.0
 
@@ -326,17 +333,17 @@ def test_product_price_setter(sample_product):
 
 def test_product_price_negative_value(sample_product, capsys):
     # Проверка попытки установить отрицательную цену
-    sample_product.price = -100
-    captured = capsys.readouterr()
-    assert "Цена не должна быть нулевая или отрицательная" in captured.out
+    with pytest.raises(ValueError, match="Цена не должна быть нулевая или отрицательная"):
+        sample_product.price = -100
+
     assert sample_product.price == 50000  # Цена не должна измениться
 
 
 def test_product_price_zero(sample_product, capsys):
     # Проверка попытки установить нулевую цену
-    sample_product.price = 0
-    captured = capsys.readouterr()
-    assert "Цена не должна быть нулевая или отрицательная" in captured.out
+    with pytest.raises(ValueError, match="Цена не должна быть нулевая или отрицательная"):
+        sample_product.price = 0
+
     assert sample_product.price == 50000  # Цена не должна измениться
 
 
