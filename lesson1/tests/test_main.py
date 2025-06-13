@@ -253,15 +253,15 @@ class TestProductSubclassesInteraction:
 class TestEdgeCases:
     """Тесты граничных случаев"""
 
-    def test_smartphone_zero_quantity(self):
-        """Тест создания смартфона с нулевым количеством"""
-        smartphone = Smartphone("Test Phone", "Test", 100000.0, 0, 90.0, "Test", 128, "Black")
-        assert smartphone.quantity == 0
+    def test_smartphone_ten_quantity(self):
+        """Тест создания смартфона с количеством 10"""
+        smartphone = Smartphone("Test Phone", "Test", 100000.0, 10, 90.0, "Test", 128, "Black")
+        assert smartphone.quantity == 10
 
-    def test_lawn_grass_zero_quantity(self):
+    def test_lawn_grass_ten_quantity(self):
         """Тест создания газонной травы с нулевым количеством"""
-        grass = LawnGrass("Test Grass", "Test", 500.0, 0, "Test Country", "Test Period", "Green")
-        assert grass.quantity == 0
+        grass = LawnGrass("Test Grass", "Test", 500.0, 10, "Test Country", "Test Period", "Green")
+        assert grass.quantity == 10
 
     def test_smartphone_float_memory(self):
         """Тест создания смартфона с дробным значением памяти"""
@@ -339,6 +339,33 @@ def test_product_price_negative_value(sample_product, capsys):
     assert sample_product.price == 50000  # Цена не должна измениться
 
 
+def test_product_quantity_zero_value(capsys):
+    """
+    Тест проверки создания продукта с нулевым или отрицательным количеством.
+
+    Проверяет:
+    1. Выброс правильного исключения
+    2. Корректность сообщения об ошибке
+    3. Отсутствие побочных эффектов (вывода)
+    4. Что валидные значения работают корректно
+    """
+
+    # Тестируем недопустимые значения
+    invalid_quantities = [0, -1, -5, -100]
+
+    for qty in invalid_quantities:
+        with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
+            Product("Samsung Galaxy", "Смартфон Samsung", 50000, qty)
+
+    # Проверяем отсутствие нежелательного вывода
+    captured = capsys.readouterr()
+    assert captured.out == ""
+
+    # Дополнительно проверяем, что валидное значение работает
+    valid_product = Product("Valid Product", "Описание", 1000, 1)
+    assert valid_product.quantity == 1
+    assert isinstance(valid_product, Product)
+
 def test_product_price_zero(sample_product, capsys):
     # Проверка попытки установить нулевую цену
     with pytest.raises(ValueError, match="Цена не должна быть нулевая или отрицательная"):
@@ -392,6 +419,10 @@ def test_category_product_count():
 
     assert Category.category_count == initial_category_count + 1
     assert Category.product_count == initial_product_count + 2
+
+def test_middle_price(sample_product, sample_product2):
+    sample_category = Category("Новая категория", "Описание", [sample_product, sample_product2])
+    assert sample_category.middle_price() == (sample_product.price + sample_product2.price) / 2
 
 
 def test_product_str_representation(sample_product):

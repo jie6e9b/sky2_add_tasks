@@ -1,6 +1,7 @@
 import pytest
 from lesson1.print_mixin import PrintMixin
 
+
 def test_print_called_on_init(capsys):
     class Dummy(PrintMixin):
         def __init__(self, a, b):
@@ -10,7 +11,13 @@ def test_print_called_on_init(capsys):
 
     d = Dummy(1, 2)
     captured = capsys.readouterr()
-    assert "Dummy(a=1, b=2)" in captured.out
+
+    # Проверяем, что вывод содержит все нужные части
+    output = captured.out.strip()
+    assert output.startswith("Dummy(")
+    assert output.endswith(")")
+    assert "a=1" in output
+    assert "b=2" in output
 
 def test_repr_with_init_params():
     class Dummy(PrintMixin):
