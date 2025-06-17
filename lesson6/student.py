@@ -12,13 +12,22 @@
 
 class Student:
 
-    def __init__(...):
-        ...
+    def __init__(self, name, course, rates):
+        self.name = name
+        self.course = course
+        self.rates = rates
+
+    def avg_rate(self):
+        if len(self.rates) == 0:
+            return 0
+        else:
+            return sum(self.rates) / len(self.rates)
 
 
-# код для проверки
-student = Student('Ivan', 'Python', [5, 4, 5, 5])
-student.avg_rate() # 4.75
+if __name__ == '__main__':  # Исправляем условие
+    # код для проверки
+    student1 = Student('Ivan', 1, [5, 4, 5, 5])  # course должен быть числом
+    print(student1.avg_rate())  # Выведет: 4.75
 
-student = Student('Ivan', 'Python', [])
-student.avg_rate() # 0.0
+    student2 = Student('Ivan', 1, [])
+    print(student2.avg_rate())  # Выведет: 0
